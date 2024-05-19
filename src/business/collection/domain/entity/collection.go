@@ -30,7 +30,7 @@ func (c *Collection) GetID() int64 {
 	return c.id
 }
 
-func (c *Collection) GetInternalParentID() int64 {
+func (c *Collection) GetParentID() int64 {
 	return c.internalParentId
 }
 

@@ -17,7 +17,7 @@ func (f *CollectionService) Update(colle *command.CollectionUpdateCommand) (*com
 		return nil, err
 	}
 
-	err = f.parseParent(_colle, _colle.GetInternalParentID())
+	err = f.parseParent(_colle, _colle.GetParentID())
 	if err != nil {
 		return nil, err
 	}

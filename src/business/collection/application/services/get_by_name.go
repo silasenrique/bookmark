@@ -16,8 +16,8 @@ func (f *CollectionService) GetByName(name string) (*command.CollectionResponse,
 		return nil, err
 	}
 
-	if colle.GetInternalParentID() != 0 {
-		parent, err := f.rep.GetById(colle.GetInternalParentID())
+	if colle.GetParentID() != 0 {
+		parent, err := f.rep.GetById(colle.GetParentID())
 		if err != nil {
 			return nil, err
 		}
