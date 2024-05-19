@@ -28,7 +28,7 @@ func (f collectionMock) GetByName(name string) (*entity.Collection, error) {
 	return f.GetByNameFunc(name)
 }
 
-func (f collectionMock) GetFolderById(id int64) (*entity.Collection, error) {
+func (f collectionMock) GetById(id int64) (*entity.Collection, error) {
 	return f.GetByIdFunc(id)
 }
 

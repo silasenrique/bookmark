@@ -12,7 +12,7 @@ func (f *CollectionService) Update(colle *command.CollectionUpdateCommand) (*com
 		return nil, errors.New("e necessário informar um identificador da colecao")
 	}
 
-	_colle, err := f.rep.GetFolderByInternalId(colle.Id)
+	_colle, err := f.rep.GetById(colle.Id)
 	if err != nil {
 		return nil, err
 	}

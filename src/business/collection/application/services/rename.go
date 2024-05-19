@@ -16,7 +16,7 @@ func (f *CollectionService) Rename(cmd *command.CollectionRenameCommand) (*comma
 		return nil, errors.New("o nome deve ser informado")
 	}
 
-	colle, err := f.rep.GetFolderById(cmd.Id)
+	colle, err := f.rep.GetById(cmd.Id)
 	if err != nil {
 		return nil, err
 	}

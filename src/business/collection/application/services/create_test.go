@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"database/sql"
 	"errors"
 	"go-read-list/src/business/collection/application/command"
 	service "go-read-list/src/business/collection/application/services"
@@ -42,6 +43,7 @@ func TestCreateCollectionWithoutParent(t *testing.T) {
 		resp, err := serv.Create(i.cmd)
 		if err != nil {
 			t.Errorf("não foi retornado o erro esperado! Err: %s", err)
+			t.FailNow()
 		}
 
 		assert.Equal(t, i.cmd.Name, resp.Name, "O nome não retornou como esperado")
@@ -65,20 +67,32 @@ func TestCreateCollectionParent(t *testing.T) {
 			seq = seq + 1
 			return seq, nil
 		},
+		GetByIdFunc: func(id int64) (*entity.Collection, error) {
+			collection := mockTable[id]
+			if collection == nil {
+				return nil, sql.ErrNoRows
+			}
+
+			return collection, nil
+		},
 	}
+
+	// preparando o pai
+	mockTable[123] = entity.NewCollection(123, "Books")
 
 	serv := service.NewFolderService(tt)
 
 	commands := []struct {
 		cmd *command.CollectionCreateCommand
 	}{
-		{&command.CollectionCreateCommand{Name: "Move", ParentId: 122, Icon: "path_to_icon"}},
+		{&command.CollectionCreateCommand{Name: "Fantasy", ParentId: 120, Icon: "path_to_icon"}},
 	}
 
 	for _, i := range commands {
 		resp, err := serv.Create(i.cmd)
 		if err != nil {
 			t.Errorf("não foi retornado o erro esperado! Err: %s", err)
+			t.FailNow()
 		}
 
 		assert.Equal(t, i.cmd.Name, resp.Name, "O nome não retornou como esperado")

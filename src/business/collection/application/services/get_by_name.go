@@ -17,7 +17,7 @@ func (f *CollectionService) GetByName(name string) (*command.CollectionResponse,
 	}
 
 	if colle.GetInternalParentID() != 0 {
-		parent, err := f.rep.GetFolderByInternalId(colle.GetInternalParentID())
+		parent, err := f.rep.GetById(colle.GetInternalParentID())
 		if err != nil {
 			return nil, err
 		}
