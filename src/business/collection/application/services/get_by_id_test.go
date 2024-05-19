@@ -41,6 +41,21 @@ func TestGetById(t *testing.T) {
 		t.FailNow()
 	})
 
+	t.Run("zero id", func(t *testing.T) {
+		_, err := serv.GetById(0)
+		if err == nil {
+			t.Errorf("deve retornar um erro, collection nao deve existir! Err: %s", err)
+			t.FailNow()
+		}
+
+		if errors.Is(err, service.ErrIdEqualZero) {
+			return
+		}
+
+		t.Errorf("não foi retornado o erro esperado! Err: %s", err)
+		t.FailNow()
+	})
+
 	t.Run("found", func(t *testing.T) {
 		resp, err := serv.GetById(130)
 		if err != nil {

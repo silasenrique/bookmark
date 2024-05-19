@@ -9,7 +9,7 @@ import (
 
 func (f *CollectionService) GetById(id int64) (*command.CollectionResponse, error) {
 	if id == 0 {
-		return nil, errors.New("id deve ser informado")
+		return nil, ErrIdEqualZero
 	}
 
 	colle, err := f.rep.GetById(id)
