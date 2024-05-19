@@ -8,7 +8,7 @@ type Collection interface {
 	Update(colle *entity.Collection) error
 	GetById(id int64) (*entity.Collection, error)
 	GetTopFolder() ([]*entity.Collection, error)
-	GetByName(name string) (*entity.Collection, error)
+	GetByName(name string) ([]*entity.Collection, error)
 	CountDependencies(id int64) (int64, error)
 	GetNextId() (int64, error)
 }

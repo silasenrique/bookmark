@@ -14,7 +14,7 @@ type collectionMock struct {
 	GetByIdFunc           func(id int64) (*entity.Collection, error)
 	GetByInternalIdFunc   func(id int64) (*entity.Collection, error)
 	GetTopFunc            func() ([]*entity.Collection, error)
-	GetByNameFunc         func(name string) (*entity.Collection, error)
+	GetByNameFunc         func(name string) ([]*entity.Collection, error)
 	CountDependenciesFunc func(id int64) (int64, error)
 	GetNextIdFunc         func() (int64, error)
 }
@@ -27,16 +27,12 @@ func (f collectionMock) CreateFolder(folder *entity.Collection) error {
 	return f.CreateFunc(folder)
 }
 
-func (f collectionMock) GetByName(name string) (*entity.Collection, error) {
+func (f collectionMock) GetByName(name string) ([]*entity.Collection, error) {
 	return f.GetByNameFunc(name)
 }
 
 func (f collectionMock) GetById(id int64) (*entity.Collection, error) {
 	return f.GetByIdFunc(id)
-}
-
-func (f collectionMock) GetFolderByInternalId(id int64) (*entity.Collection, error) {
-	return f.GetByInternalIdFunc(id)
 }
 
 func (f collectionMock) GetNextId() (int64, error) {
