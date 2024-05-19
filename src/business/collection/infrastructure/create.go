@@ -20,8 +20,8 @@ func (f *collectionPersistence) CreateFolder(colle *entity.Collection) error {
 		colle.GetName(),
 		colle.GetIcon(),
 		parent,
-		colle.GetCreateAt(),
-		colle.GetUpdateAt(),
+		colle.GetUnixCreateAt(),
+		colle.GetUnixUpdateAt(),
 	)
 
 	return err

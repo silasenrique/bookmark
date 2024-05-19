@@ -19,7 +19,7 @@ func (f *collectionPersistence) Update(colle *entity.Collection) error {
 		colle.GetName(),
 		colle.GetIcon(),
 		parent,
-		colle.GetUpdateAt(),
+		colle.GetUnixUpdateAt(),
 		colle.GetID(),
 	)
 

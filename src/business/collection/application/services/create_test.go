@@ -11,9 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var seq int64 = 121
-var mockTable = map[int64]*entity.Collection{}
-
 func TestCreateCollectionWithoutParent(t *testing.T) {
 	tt := &collectionMock{
 		CreateFunc: func(folder *entity.Collection) error {

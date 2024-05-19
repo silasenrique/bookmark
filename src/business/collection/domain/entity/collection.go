@@ -49,13 +49,23 @@ func (c *Collection) RemoveParent() {
 }
 
 // Get collection creation date
-func (c *Collection) GetCreateAt() int64 {
+func (c *Collection) GetUnixCreateAt() int64 {
 	return c.createAt
 }
 
 // Get the date of the last change in the collection
-func (c *Collection) GetUpdateAt() int64 {
+func (c *Collection) GetUnixUpdateAt() int64 {
 	return c.updateAt
+}
+
+// Get collection creation date
+func (c *Collection) GetStringCreateAt() string {
+	return time.Unix(c.createAt, 0).Format("01-02-2006 15:04:05")
+}
+
+// Get the date of the last change in the collection
+func (c *Collection) GetStringUpdateAt() string {
+	return time.Unix(c.updateAt, 0).Format("01-02-2006 15:04:05")
 }
 
 func (c *Collection) AddInternalId(id int64) *Collection {

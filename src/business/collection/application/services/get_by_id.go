@@ -1,6 +1,7 @@
 package service
 
 import (
+	"database/sql"
 	"errors"
 	"go-read-list/src/business/collection/application/command"
 	"go-read-list/src/business/collection/application/mapper"
@@ -13,6 +14,10 @@ func (f *CollectionService) GetById(id int64) (*command.CollectionResponse, erro
 
 	colle, err := f.rep.GetById(id)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.Join(err, ErrNotExist)
+		}
+
 		return nil, err
 	}
 

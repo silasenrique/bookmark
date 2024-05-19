@@ -4,6 +4,9 @@ import (
 	"go-read-list/src/business/collection/domain/entity"
 )
 
+var seq int64 = 121
+var mockTable = map[int64]*entity.Collection{}
+
 type collectionMock struct {
 	CreateFunc            func(folder *entity.Collection) error
 	RemevoByIdFunc        func(id int64) error

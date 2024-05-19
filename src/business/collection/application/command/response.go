@@ -19,8 +19,8 @@ func ToCollectionResponse(collection *entity.Collection) *CollectionResponse {
 		Id:       collection.GetID(),
 		Name:     collection.GetName(),
 		Icon:     collection.GetIcon(),
-		CreateAt: time.Unix(collection.GetCreateAt(), 0).Format("01-02-2006 15:04:05"),
-		UpdateAt: time.Unix(collection.GetUpdateAt(), 0).Format("01-02-2006 15:04:05"),
+		CreateAt: time.Unix(collection.GetUnixCreateAt(), 0).Format("01-02-2006 15:04:05"),
+		UpdateAt: time.Unix(collection.GetUnixUpdateAt(), 0).Format("01-02-2006 15:04:05"),
 	}
 }
 
