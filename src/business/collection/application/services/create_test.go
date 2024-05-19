@@ -17,10 +17,6 @@ var mockTable = map[int64]*entity.Collection{}
 func TestCreateCollectionWithoutParent(t *testing.T) {
 	tt := &collectionMock{
 		CreateFunc: func(folder *entity.Collection) error {
-			if folder.GetID() == 0 {
-				return errors.New("nao pode ser 0")
-			}
-
 			mockTable[folder.GetID()] = folder
 			return nil
 		},
@@ -53,13 +49,9 @@ func TestCreateCollectionWithoutParent(t *testing.T) {
 	}
 }
 
-func TestCreateCollectionParent(t *testing.T) {
+func TestCreateCollectionWithParent(t *testing.T) {
 	tt := &collectionMock{
 		CreateFunc: func(folder *entity.Collection) error {
-			if folder.GetID() == 0 {
-				return errors.New("nao pode ser 0")
-			}
-
 			mockTable[folder.GetID()] = folder
 			return nil
 		},
@@ -77,27 +69,34 @@ func TestCreateCollectionParent(t *testing.T) {
 		},
 	}
 
-	// preparando o pai
-	mockTable[123] = entity.NewCollection(123, "Books")
-
 	serv := service.NewFolderService(tt)
-
-	commands := []struct {
-		cmd *command.CollectionCreateCommand
-	}{
-		{&command.CollectionCreateCommand{Name: "Fantasy", ParentId: 120, Icon: "path_to_icon"}},
-	}
-
-	for _, i := range commands {
-		resp, err := serv.Create(i.cmd)
-		if err != nil {
-			t.Errorf("não foi retornado o erro esperado! Err: %s", err)
+	t.Run("parent not exist", func(t *testing.T) {
+		cmd := &command.CollectionCreateCommand{Name: "Fantasy", ParentId: 120, Icon: "path_to_icon"}
+		_, err := serv.Create(cmd)
+		if err == nil {
+			t.Errorf("deve retornar um erro, o pai nao exise! Err: %s", err)
 			t.FailNow()
 		}
 
-		assert.Equal(t, i.cmd.Name, resp.Name, "O nome não retornou como esperado")
-		assert.Equal(t, i.cmd.Icon, resp.Icon, "O icone não retornou como esperado")
-		assert.NotEmpty(t, resp.CreateAt, "A data do cadastro do registro deveria estar preenchida")
-		assert.NotEmpty(t, resp.UpdateAt, "A data de alteração deveria estar preenchida")
-	}
+		if errors.Is(err, service.ErrParentNotFound) {
+			return
+		}
+
+		t.Errorf("não foi retornado o erro esperado! Err: %s", err)
+		t.FailNow()
+	})
+
+	t.Run("valid parent", func(t *testing.T) {
+		mockTable[123] = entity.NewCollection(123, "book")
+
+		cmd := &command.CollectionCreateCommand{Name: "Fantasy", ParentId: 123, Icon: "path_to_icon"}
+		resp, err := serv.Create(cmd)
+		if err != nil {
+			t.Errorf("erro inesperado! Err: %s", err)
+			t.FailNow()
+		}
+
+		assert.Equal(t, cmd.ParentId, resp.Parent.Id, "O id retornado do pai não era o esperado")
+	})
+
 }

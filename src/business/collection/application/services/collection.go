@@ -1,6 +1,8 @@
 package service
 
 import (
+	"database/sql"
+	"errors"
 	"go-read-list/src/business/collection/domain/entity"
 	"go-read-list/src/business/collection/domain/repository"
 )
@@ -20,6 +22,10 @@ func (f *CollectionService) parseParent(dir *entity.Collection, parentId int64) 
 
 	parent, err := f.rep.GetById(parentId)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return errors.Join(err, ErrParentNotFound)
+		}
+
 		return err
 	}
 
