@@ -9,16 +9,18 @@ type CollectionResponse struct {
 	Id       int64
 	Name     string
 	Parent   *CollectionResponse
+	Icon     string
 	CreateAt string
 	UpdateAt string
 }
 
-func ToCollectionResponse(folder *entity.Collection) *CollectionResponse {
+func ToCollectionResponse(collection *entity.Collection) *CollectionResponse {
 	return &CollectionResponse{
-		Id:       folder.GetID(),
-		Name:     folder.GetName(),
-		CreateAt: time.Unix(folder.GetCreateAt(), 0).Format("01-02-2006 15:04:05"),
-		UpdateAt: time.Unix(folder.GetUpdateAt(), 0).Format("01-02-2006 15:04:05"),
+		Id:       collection.GetID(),
+		Name:     collection.GetName(),
+		Icon:     collection.GetIcon(),
+		CreateAt: time.Unix(collection.GetCreateAt(), 0).Format("01-02-2006 15:04:05"),
+		UpdateAt: time.Unix(collection.GetUpdateAt(), 0).Format("01-02-2006 15:04:05"),
 	}
 }
 

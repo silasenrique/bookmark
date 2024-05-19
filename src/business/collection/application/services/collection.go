@@ -18,7 +18,7 @@ func (f *CollectionService) parseParent(dir *entity.Collection, parentId int64) 
 		return nil
 	}
 
-	parent, err := f.rep.GetFolderByInternalId(parentId)
+	parent, err := f.rep.GetFolderById(parentId)
 	if err != nil {
 		return err
 	}

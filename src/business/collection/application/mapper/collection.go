@@ -35,6 +35,7 @@ func CollectionToResponse(colle *entity.Collection) *command.CollectionResponse 
 	return &command.CollectionResponse{
 		Id:       colle.GetID(),
 		Name:     colle.GetName(),
+		Icon:     colle.GetIcon(),
 		Parent:   CollectionToResponse(colle.GetParent()),
 		CreateAt: time.Unix(colle.GetCreateAt(), 0).Format("01-02-2006 15:04:05"),
 		UpdateAt: time.Unix(colle.GetUpdateAt(), 0).Format("01-02-2006 15:04:05"),
