@@ -8,7 +8,7 @@ import (
 func (f *collectionPersistence) GetByName(name string) ([]*entity.Collection, error) {
 	colle := []*entity.Collection{}
 
-	rows, err := f.Query("select id, name, ifnull(icon, ''), ifnull(collection_id, 0), create_at, update_at from collection where name = ?", name)
+	rows, err := f.Query("select id, name, ifnull(icon, ''), ifnull(collection_id, 0), create_at, update_at from collection where name like '%?%' order by id asc", name)
 	if err != nil {
 		return nil, err
 	}

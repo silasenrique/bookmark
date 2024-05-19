@@ -12,7 +12,6 @@ type collectionMock struct {
 	RemevoByIdFunc        func(id int64) error
 	UpdateFunc            func(colle *entity.Collection) error
 	GetByIdFunc           func(id int64) (*entity.Collection, error)
-	GetByInternalIdFunc   func(id int64) (*entity.Collection, error)
 	GetTopFunc            func() ([]*entity.Collection, error)
 	GetByNameFunc         func(name string) ([]*entity.Collection, error)
 	CountDependenciesFunc func(id int64) (int64, error)
