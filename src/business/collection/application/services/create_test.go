@@ -25,25 +25,48 @@ func TestCreateCollectionWithoutParent(t *testing.T) {
 
 	serv := service.NewFolderService(tt)
 
-	commands := []struct {
-		cmd *command.CollectionCreateCommand
-	}{
-		{&command.CollectionCreateCommand{Name: "Move", Icon: "path_to_icon"}},
-		{&command.CollectionCreateCommand{Name: "Golang"}},
-	}
-
-	for _, i := range commands {
-		resp, err := serv.Create(i.cmd)
-		if err != nil {
-			t.Errorf("não foi retornado o erro esperado! Err: %s", err)
-			t.FailNow()
+	t.Run("cool collections", func(t *testing.T) {
+		commands := []struct {
+			cmd *command.CollectionCreateCommand
+		}{
+			{&command.CollectionCreateCommand{Name: "Move", Icon: "path_to_icon"}},
+			{&command.CollectionCreateCommand{Name: "Golang"}},
+			{&command.CollectionCreateCommand{Name: "  .  "}},
 		}
 
-		assert.Equal(t, i.cmd.Name, resp.Name, "O nome não retornou como esperado")
-		assert.Equal(t, i.cmd.Icon, resp.Icon, "O icone não retornou como esperado")
-		assert.NotEmpty(t, resp.CreateAt, "A data do cadastro do registro deveria estar preenchida")
-		assert.NotEmpty(t, resp.UpdateAt, "A data de alteração deveria estar preenchida")
-	}
+		for _, i := range commands {
+			resp, err := serv.Create(i.cmd)
+			if err != nil {
+				t.Errorf("não foi retornado o erro esperado! Err: %s", err)
+				t.FailNow()
+			}
+
+			assert.Equal(t, i.cmd.Name, resp.Name, "O nome não retornou como esperado")
+			assert.Equal(t, i.cmd.Icon, resp.Icon, "O icone não retornou como esperado")
+			assert.NotEmpty(t, resp.CreateAt, "A data do cadastro do registro deveria estar preenchida")
+			assert.NotEmpty(t, resp.UpdateAt, "A data de alteração deveria estar preenchida")
+		}
+	})
+
+	t.Run("empty name", func(t *testing.T) {
+		commands := []struct {
+			cmd *command.CollectionCreateCommand
+		}{
+			{&command.CollectionCreateCommand{Name: ""}},
+			{&command.CollectionCreateCommand{Name: "   "}},
+		}
+
+		for _, i := range commands {
+			_, err := serv.Create(i.cmd)
+			if err == nil {
+				t.Errorf("era esperado um erro! nao pode ser cadastrado nulo")
+				t.FailNow()
+			}
+
+			assert.ErrorIs(t, err, service.ErrNameIsNull, "a string nao pode estar vazia")
+		}
+	})
+
 }
 
 func TestCreateCollectionWithParent(t *testing.T) {
