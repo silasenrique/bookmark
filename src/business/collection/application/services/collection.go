@@ -6,10 +6,10 @@ import (
 )
 
 type CollectionService struct {
-	rep repository.Folderiter
+	rep repository.Collection
 }
 
-func NewFolderService(rep repository.Folderiter) *CollectionService {
+func NewFolderService(rep repository.Collection) *CollectionService {
 	return &CollectionService{rep}
 }
 

@@ -9,7 +9,7 @@ type collectionPersistence struct {
 	*sql.DB
 }
 
-func NewCollectionRepository(db *sql.DB) repository.FolderWriterReader {
+func NewCollectionRepository(db *sql.DB) repository.Collection {
 	return &collectionPersistence{db}
 }
 
