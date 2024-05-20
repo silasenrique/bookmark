@@ -4,13 +4,13 @@ import "time"
 
 // Collection of saved links and other collections
 type Collection struct {
-	id               int64
-	name             string
-	icon             string
-	parent           *Collection
-	internalParentId int64
-	createAt         int64
-	updateAt         int64
+	id       int64
+	name     string
+	icon     string
+	parent   *Collection
+	parentId int64
+	createAt int64
+	updateAt int64
 }
 
 // Returns an instance of a new collection
@@ -31,7 +31,7 @@ func (c *Collection) GetID() int64 {
 }
 
 func (c *Collection) GetParentID() int64 {
-	return c.internalParentId
+	return c.parentId
 }
 
 func (c *Collection) GetParent() *Collection {
@@ -68,7 +68,7 @@ func (c *Collection) GetStringUpdateAt() string {
 	return time.Unix(c.updateAt, 0).Format("01-02-2006 15:04:05")
 }
 
-func (c *Collection) AddInternalId(id int64) *Collection {
+func (c *Collection) AddId(id int64) *Collection {
 	c.id = id
 
 	return c
@@ -86,12 +86,12 @@ func (c *Collection) AddUpdateAt(at int64) *Collection {
 	return c
 }
 
-func (c *Collection) AddInternalParentIO(id int64) *Collection {
+func (c *Collection) AddParentId(id int64) *Collection {
 	if id == 0 {
 		return c
 	}
 
-	c.internalParentId = id
+	c.parentId = id
 
 	return c
 }
@@ -102,6 +102,7 @@ func (c *Collection) AddParent(parent *Collection) *Collection {
 		return c
 	}
 
+	c.parentId = parent.id
 	c.parent = parent
 
 	return c

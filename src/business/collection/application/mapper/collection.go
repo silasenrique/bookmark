@@ -21,7 +21,7 @@ func DtoToCollection(colle *CollectionDto) *entity.Collection {
 	}
 
 	return entity.NewCollection(colle.ID, colle.Name).
-		AddInternalParentIO(colle.IntParentId).
+		AddParentId(colle.IntParentId).
 		AddCreateAt(colle.CreateAt).
 		AddUpdateAt(colle.UpdateAt).
 		AddIcon(colle.Icon)
