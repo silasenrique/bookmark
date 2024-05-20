@@ -13,6 +13,7 @@ import (
 func TestRename(t *testing.T) {
 	collections := map[int64]*entity.Collection{
 		1: entity.NewCollection(1, "Movies").AddCreateAt(1716201655),
+		3: entity.NewCollection(3, "Action").AddParent(entity.NewCollection(1, "Movies")),
 	}
 
 	mock := &collectionMock{
