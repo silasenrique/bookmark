@@ -2,7 +2,6 @@ package service_test
 
 import (
 	"database/sql"
-	"errors"
 	service "go-read-list/src/business/collection/application/services"
 	"go-read-list/src/business/collection/domain/entity"
 	"testing"
@@ -33,12 +32,7 @@ func TestGetById(t *testing.T) {
 			t.FailNow()
 		}
 
-		if errors.Is(err, service.ErrNotExist) {
-			return
-		}
-
-		t.Errorf("não foi retornado o erro esperado! Err: %s", err)
-		t.FailNow()
+		assert.ErrorIsf(t, err, service.ErrNotExist, "erro não esperado retornando")
 	})
 
 	t.Run("zero id", func(t *testing.T) {
@@ -48,12 +42,7 @@ func TestGetById(t *testing.T) {
 			t.FailNow()
 		}
 
-		if errors.Is(err, service.ErrIdEqualZero) {
-			return
-		}
-
-		t.Errorf("não foi retornado o erro esperado! Err: %s", err)
-		t.FailNow()
+		assert.ErrorIs(t, service.ErrIdEqualZero, err, "erro não esperado retornando")
 	})
 
 	t.Run("found", func(t *testing.T) {
