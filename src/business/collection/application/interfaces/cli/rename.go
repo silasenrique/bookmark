@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"errors"
 	"go-read-list/src/business/collection/application/command"
 	service "go-read-list/src/business/collection/application/services"
 
@@ -14,11 +13,11 @@ func Rename(serv *service.CollectionService) cli.ActionFunc {
 		title := ctx.String("title")
 
 		if id == 0 {
-			return errors.New("é necessário informar o id")
+			return cli.Exit("é necessário informar o id", 0)
 		}
 
 		if title == "" {
-			return errors.New("é necessário informar o novo nome da coleção")
+			return cli.Exit("é necessário informar o novo nome da coleção", 0)
 		}
 
 		response, err := serv.Rename(&command.CollectionRenameCommand{
@@ -27,7 +26,7 @@ func Rename(serv *service.CollectionService) cli.ActionFunc {
 		})
 
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
 		printOne(response)

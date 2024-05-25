@@ -23,7 +23,7 @@ func (f *CollectionService) parseParent(dir *entity.Collection, parentId int64) 
 	parent, err := f.rep.GetById(parentId)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return errors.Join(err, ErrParentNotFound)
+			return ErrParentNotFound
 		}
 
 		return err

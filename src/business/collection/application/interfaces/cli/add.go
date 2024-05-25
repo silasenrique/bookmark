@@ -17,7 +17,7 @@ func Add(serv *service.CollectionService) cli.ActionFunc {
 
 		response, err := serv.Create(folderCommand)
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
 		printOne(response)

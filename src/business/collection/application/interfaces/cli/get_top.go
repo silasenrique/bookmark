@@ -10,7 +10,7 @@ func GetTopLevel(serv *service.CollectionService) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
 		collection, err := serv.ListAllTopCollections()
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
 		printMany(collection)

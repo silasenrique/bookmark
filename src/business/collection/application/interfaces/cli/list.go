@@ -10,7 +10,7 @@ func List(serv *service.CollectionService) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
 		col, err := serv.List()
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
 		printMany(col)

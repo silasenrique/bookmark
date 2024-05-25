@@ -17,7 +17,7 @@ func (f *CollectionService) Update(colle *command.CollectionUpdateCommand) (*com
 	_colle, err := f.rep.GetById(colle.Id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, errors.Join(err, ErrNotExist)
+			return nil, ErrNotExist
 		}
 
 		return nil, err
