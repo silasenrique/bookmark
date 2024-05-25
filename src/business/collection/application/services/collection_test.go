@@ -16,6 +16,7 @@ type collectionMock struct {
 	GetByNameFunc         func(name string) ([]*entity.Collection, error)
 	CountDependenciesFunc func(id int64) (int64, error)
 	GetNextIdFunc         func() (int64, error)
+	ListFunc              func() ([]*entity.Collection, error)
 }
 
 func (f collectionMock) CountDependencies(id int64) (int64, error) {
@@ -48,4 +49,8 @@ func (f collectionMock) RemevoFolderById(id int64) error {
 
 func (f collectionMock) Update(colle *entity.Collection) error {
 	return f.UpdateFunc(colle)
+}
+
+func (f collectionMock) List() ([]*entity.Collection, error) {
+	return f.ListFunc()
 }

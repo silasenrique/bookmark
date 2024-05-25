@@ -12,7 +12,7 @@ func getCmds(wrapperRepository *wrapper) []*cli.Command {
 		{
 			Name:    "collection",
 			Usage:   "obtem uma coleção",
-			Aliases: []string{"g"},
+			Aliases: []string{"c"},
 			Subcommands: []*cli.Command{
 				{
 					Name:  "byId",

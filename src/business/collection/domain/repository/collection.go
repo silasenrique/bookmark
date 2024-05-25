@@ -11,4 +11,5 @@ type Collection interface {
 	GetByName(name string) ([]*entity.Collection, error)
 	CountDependencies(id int64) (int64, error)
 	GetNextId() (int64, error)
+	List() ([]*entity.Collection, error)
 }

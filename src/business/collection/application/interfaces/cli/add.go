@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"go-read-list/src/business/collection/application/command"
 	service "go-read-list/src/business/collection/application/services"
 
@@ -21,18 +20,7 @@ func Add(serv *service.CollectionService) cli.ActionFunc {
 			return err
 		}
 
-		fmt.Printf("%-5v %-5v %-10v %-19v %-30v\n",
-			response.Icon,
-			response.Id,
-			response.Name,
-			response.CreateAt,
-			response.UpdateAt)
-
-		if response.Parent != nil {
-			fmt.Printf("|--> Parent: %d - %s\n",
-				response.Parent.Id,
-				response.Parent.Name)
-		}
+		printOne(response)
 
 		return nil
 	}
