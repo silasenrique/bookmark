@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	service "go-read-list/src/business/collection/application/services"
 
 	"github.com/urfave/cli/v2"
@@ -13,10 +12,10 @@ func GetById(serv *service.CollectionService) cli.ActionFunc {
 
 		colle, err := serv.GetById(id)
 		if err != nil {
-			return nil
+			return err
 		}
 
-		fmt.Printf("%v\n", colle)
+		printOne(colle)
 
 		return nil
 	}
@@ -28,10 +27,10 @@ func GetByName(serv *service.CollectionService) cli.ActionFunc {
 
 		colle, err := serv.GetByName(name)
 		if err != nil {
-			return nil
+			return err
 		}
 
-		fmt.Printf("%v\n", colle)
+		printMany(colle)
 
 		return nil
 	}

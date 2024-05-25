@@ -2,7 +2,6 @@ package cli
 
 import (
 	"errors"
-	"fmt"
 	"go-read-list/src/business/collection/application/command"
 	service "go-read-list/src/business/collection/application/services"
 
@@ -31,11 +30,7 @@ func Rename(serv *service.CollectionService) cli.ActionFunc {
 			return err
 		}
 
-		fmt.Printf("%-5v | %-10v | %-19v | %-30v\n",
-			response.Id,
-			response.Name,
-			response.CreateAt,
-			response.UpdateAt)
+		printOne(response)
 
 		return nil
 	}

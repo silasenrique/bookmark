@@ -6,14 +6,14 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func GetTopLevel(serv *service.CollectionService) cli.ActionFunc {
+func List(serv *service.CollectionService) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
-		collection, err := serv.ListAllTopCollections()
+		col, err := serv.List()
 		if err != nil {
 			return err
 		}
 
-		printMany(collection)
+		printMany(col)
 
 		return nil
 	}

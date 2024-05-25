@@ -29,7 +29,7 @@ func listCmds(wrapperRepository *wrapper) []*cli.Command {
 				{
 					Name:    "all", // TODO: ainda não ta pronta não
 					Usage:   "listar todas as coleções criadas",
-					Action:  colli.GetTopLevel(wrapperRepository.collection),
+					Action:  colli.List(wrapperRepository.collection),
 					Aliases: []string{"a"},
 				},
 			},
