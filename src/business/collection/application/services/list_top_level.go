@@ -10,7 +10,7 @@ func (f *CollectionService) ListAllTopCollections() (*mapper.CollectionsResponse
 	colle, err := f.rep.GetTopFolder()
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, errors.Join(err, ErrNotExist)
+			return nil, ErrNotExist
 		}
 
 		return nil, err

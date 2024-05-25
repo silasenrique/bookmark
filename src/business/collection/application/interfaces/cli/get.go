@@ -12,7 +12,7 @@ func GetById(serv *service.CollectionService) cli.ActionFunc {
 
 		colle, err := serv.GetById(id)
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
 		printOne(colle)
@@ -27,7 +27,7 @@ func GetByName(serv *service.CollectionService) cli.ActionFunc {
 
 		colle, err := serv.GetByName(name)
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
 		printMany(colle)

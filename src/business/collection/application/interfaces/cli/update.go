@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"errors"
-	"fmt"
 	"go-read-list/src/business/collection/application/command"
 	service "go-read-list/src/business/collection/application/services"
 
@@ -18,11 +16,11 @@ func Update(serv *service.CollectionService) cli.ActionFunc {
 		removeParent := ctx.Bool("removeParent")
 
 		if parentId != 0 && removeParent {
-			return errors.New("deve ser escolhido apenas uma das opções: parentId ou removeParent")
+			return cli.Exit("deve ser escolhido apenas uma das opções: parentId ou removeParent", 0)
 		}
 
 		if name == "" && icon == "" && parentId == 0 && !removeParent {
-			return errors.New("é necessário informar algum paremetro alem do id")
+			return cli.Exit("é necessário informar algum paremetro alem do id", 0)
 		}
 
 		resp, err := serv.Update(
@@ -36,14 +34,10 @@ func Update(serv *service.CollectionService) cli.ActionFunc {
 		)
 
 		if err != nil {
-			return err
+			return cli.Exit(err, 0)
 		}
 
-		fmt.Printf("%-35v | %-19v | %-19v | %-30v\n",
-			resp.Id,
-			resp.CreateAt,
-			resp.UpdateAt,
-			resp.Name)
+		printOne(resp)
 
 		return nil
 	}
