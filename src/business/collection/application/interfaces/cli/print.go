@@ -7,36 +7,37 @@ import (
 )
 
 func printOne(colle *command.CollectionResponse) {
-	fmt.Printf("%-5v %-5v %-10v %-19v %-30v\n",
+	fmt.Printf("%-5v %-5v %-19v %-19v %-10v\n",
 		"icon",
 		"id",
-		"name",
 		"creatAt",
-		"updateAt")
+		"updateAt",
+		"name",
+	)
 
-	fmt.Printf("%-5v %-5v %-10v %-19v %-30v\n",
+	fmt.Printf("%-5v %-5v %-19v %-19v %-10v \n",
 		colle.Icon,
 		colle.Id,
-		colle.Name,
 		colle.CreateAt,
 		colle.UpdateAt,
+		colle.Name,
 	)
 }
 
 func printMany(colle *mapper.CollectionsResponse) {
-	fmt.Printf("%-5v %-5v %-10v %-19v %-30v\n",
+	fmt.Printf("%-5v %-5v %-19v %-19v %-10v\n",
 		"icon",
 		"id",
-		"name",
 		"creatAt",
-		"updateAt")
+		"updateAt",
+		"name")
 
 	for _, c := range *colle {
-		fmt.Printf("%-5v %-5v %-10v %-19v %-30v\n",
+		fmt.Printf("%-5v %-5v %-19v %-19v %-10v\n",
 			c.Icon,
 			c.Id,
-			c.Name,
 			c.CreateAt,
-			c.UpdateAt)
+			c.UpdateAt,
+			c.Name)
 	}
 }
