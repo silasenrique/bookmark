@@ -21,7 +21,8 @@ func Add(serv *service.CollectionService) cli.ActionFunc {
 			return err
 		}
 
-		fmt.Printf("%-5v | %-10v | %-19v | %-30v\n",
+		fmt.Printf("%-5v %-5v %-10v %-19v %-30v\n",
+			response.Icon,
 			response.Id,
 			response.Name,
 			response.CreateAt,
