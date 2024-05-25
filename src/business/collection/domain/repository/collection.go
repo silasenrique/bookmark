@@ -12,4 +12,5 @@ type Collection interface {
 	CountDependencies(id int64) (int64, error)
 	GetNextId() (int64, error)
 	List() ([]*entity.Collection, error)
+	GetByParentId(id int64) ([]*entity.Collection, error)
 }

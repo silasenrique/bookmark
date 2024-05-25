@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"database/sql"
 	"go-read-list/src/business/collection/domain/entity"
 )
 
@@ -13,13 +12,16 @@ func (f *collectionPersistence) CreateFolder(colle *entity.Collection) error {
 
 	defer ist.Close()
 
-	parent := sql.NullInt64{Int64: colle.GetParentID()}
+	// var parent interface{}
+	// if colle.GetParentID() != 0 {
+	// 	parent = colle.GetParentID()
+	// }
 
 	_, err = ist.Exec(
 		colle.GetID(),
 		colle.GetName(),
 		colle.GetIcon(),
-		parent,
+		colle.GetParentID(),
 		colle.GetUnixCreateAt(),
 		colle.GetUnixUpdateAt(),
 	)

@@ -35,3 +35,18 @@ func GetByName(serv *service.CollectionService) cli.ActionFunc {
 		return nil
 	}
 }
+
+func GetByParentId(serv *service.CollectionService) cli.ActionFunc {
+	return func(ctx *cli.Context) error {
+		id := ctx.Int64("parentId")
+
+		colle, err := serv.GetByParentId(id)
+		if err != nil {
+			return cli.Exit(err, 0)
+		}
+
+		printMany(colle)
+
+		return nil
+	}
+}

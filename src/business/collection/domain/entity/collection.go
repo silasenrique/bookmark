@@ -8,7 +8,7 @@ type Collection struct {
 	name     string
 	icon     string
 	parent   *Collection
-	parentId int64
+	parentId *int64
 	createAt int64
 	updateAt int64
 }
@@ -30,7 +30,7 @@ func (c *Collection) GetID() int64 {
 	return c.id
 }
 
-func (c *Collection) GetParentID() int64 {
+func (c *Collection) GetParentID() *int64 {
 	return c.parentId
 }
 
@@ -91,7 +91,7 @@ func (c *Collection) AddParentId(id int64) *Collection {
 		return c
 	}
 
-	c.parentId = id
+	c.parentId = &id
 
 	return c
 }
@@ -102,7 +102,7 @@ func (c *Collection) AddParent(parent *Collection) *Collection {
 		return c
 	}
 
-	c.parentId = parent.id
+	c.parentId = &parent.id
 	c.parent = parent
 
 	return c

@@ -26,7 +26,7 @@ func TestGetCollectionWithoutParent(t *testing.T) {
 			}
 
 			for _, c := range collections {
-				if c.GetParentID() != 0 {
+				if c.GetParentID() != nil {
 					continue
 				}
 
@@ -55,7 +55,7 @@ func TestGetZeroCollectionWithoutParent(t *testing.T) {
 			}
 
 			for _, c := range collections {
-				if c.GetParentID() == 0 {
+				if c.GetParentID() == nil {
 					continue
 				}
 

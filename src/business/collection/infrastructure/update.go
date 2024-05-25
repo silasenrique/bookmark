@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"database/sql"
 	"go-read-list/src/business/collection/domain/entity"
 )
 
@@ -13,12 +12,12 @@ func (f *collectionPersistence) Update(colle *entity.Collection) error {
 
 	defer ist.Close()
 
-	parent := sql.NullInt64{Int64: colle.GetParentID()}
+	// parent := sql.NullInt64{Int64: colle.GetParentID()}
 
 	_, err = ist.Exec(
 		colle.GetName(),
 		colle.GetIcon(),
-		parent,
+		colle.GetParentID(),
 		colle.GetUnixUpdateAt(),
 		colle.GetID(),
 	)
