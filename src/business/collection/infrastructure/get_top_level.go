@@ -8,7 +8,7 @@ import (
 func (f *collectionPersistence) GetTopFolder() ([]*entity.Collection, error) {
 	colle := []*entity.Collection{}
 
-	rows, err := f.Query("select id, name, ifnull(icon, ''), ifnull(collection_id, 0), create_at, update_at from collection where collection_id is null order by create_at asc")
+	rows, err := f.Query("select id, name, ifnull(icon, ''), ifnull(collection_id, 0), create_at, update_at from collection where collection_id is null order by id asc")
 	if err != nil {
 		return nil, err
 	}

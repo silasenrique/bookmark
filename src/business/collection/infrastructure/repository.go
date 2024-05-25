@@ -2,14 +2,13 @@ package infrastructure
 
 import (
 	"database/sql"
-	"go-read-list/src/business/collection/domain/repository"
 )
 
 type collectionPersistence struct {
 	*sql.DB
 }
 
-func NewCollectionRepository(db *sql.DB) repository.FolderWriterReader {
+func NewCollectionRepository(db *sql.DB) *collectionPersistence {
 	return &collectionPersistence{db}
 }
 

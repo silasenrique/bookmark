@@ -13,15 +13,15 @@ func (f *collectionPersistence) CreateFolder(colle *entity.Collection) error {
 
 	defer ist.Close()
 
-	parent := sql.NullInt64{Int64: colle.GetInternalParentID()}
+	parent := sql.NullInt64{Int64: colle.GetParentID()}
 
 	_, err = ist.Exec(
 		colle.GetID(),
 		colle.GetName(),
 		colle.GetIcon(),
 		parent,
-		colle.GetCreateAt(),
-		colle.GetUpdateAt(),
+		colle.GetUnixCreateAt(),
+		colle.GetUnixUpdateAt(),
 	)
 
 	return err

@@ -4,12 +4,17 @@ import (
 	"go-read-list/src/business/collection/application/command"
 	"go-read-list/src/business/collection/application/mapper"
 	"go-read-list/src/business/collection/domain/entity"
+	"strings"
 )
 
 func (f *CollectionService) Create(colle *command.CollectionCreateCommand) (*command.CollectionResponse, error) {
 	id, err := f.rep.GetNextId()
 	if err != nil {
 		return nil, err
+	}
+
+	if strings.Trim(colle.Name, " ") == "" {
+		return nil, ErrNameIsNull
 	}
 
 	dir := entity.NewCollection(id, colle.Name).AddIcon(colle.Icon)

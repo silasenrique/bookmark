@@ -4,13 +4,13 @@ import "time"
 
 // Collection of saved links and other collections
 type Collection struct {
-	id               int64
-	name             string
-	icon             string
-	parent           *Collection
-	internalParentId int64
-	createAt         int64
-	updateAt         int64
+	id       int64
+	name     string
+	icon     string
+	parent   *Collection
+	parentId int64
+	createAt int64
+	updateAt int64
 }
 
 // Returns an instance of a new collection
@@ -30,8 +30,8 @@ func (c *Collection) GetID() int64 {
 	return c.id
 }
 
-func (c *Collection) GetInternalParentID() int64 {
-	return c.internalParentId
+func (c *Collection) GetParentID() int64 {
+	return c.parentId
 }
 
 func (c *Collection) GetParent() *Collection {
@@ -49,16 +49,26 @@ func (c *Collection) RemoveParent() {
 }
 
 // Get collection creation date
-func (c *Collection) GetCreateAt() int64 {
+func (c *Collection) GetUnixCreateAt() int64 {
 	return c.createAt
 }
 
 // Get the date of the last change in the collection
-func (c *Collection) GetUpdateAt() int64 {
+func (c *Collection) GetUnixUpdateAt() int64 {
 	return c.updateAt
 }
 
-func (c *Collection) AddInternalId(id int64) *Collection {
+// Get collection creation date
+func (c *Collection) GetStringCreateAt() string {
+	return time.Unix(c.createAt, 0).Format("01-02-2006 15:04:05")
+}
+
+// Get the date of the last change in the collection
+func (c *Collection) GetStringUpdateAt() string {
+	return time.Unix(c.updateAt, 0).Format("01-02-2006 15:04:05")
+}
+
+func (c *Collection) AddId(id int64) *Collection {
 	c.id = id
 
 	return c
@@ -76,12 +86,12 @@ func (c *Collection) AddUpdateAt(at int64) *Collection {
 	return c
 }
 
-func (c *Collection) AddInternalParentIO(id int64) *Collection {
+func (c *Collection) AddParentId(id int64) *Collection {
 	if id == 0 {
 		return c
 	}
 
-	c.internalParentId = id
+	c.parentId = id
 
 	return c
 }
@@ -92,6 +102,7 @@ func (c *Collection) AddParent(parent *Collection) *Collection {
 		return c
 	}
 
+	c.parentId = parent.id
 	c.parent = parent
 
 	return c

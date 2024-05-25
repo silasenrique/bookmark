@@ -10,7 +10,7 @@ import (
 )
 
 func initDb() *sql.DB {
-	db, err := sql.Open("sqlite3", "file:../../../db/readlist.db?_fk=true")
+	db, err := sql.Open("sqlite3", "file:../../../db/readlist.db?_fk=true&_case_sensitive_like=true")
 	if err != nil {
 		panic(err)
 	}

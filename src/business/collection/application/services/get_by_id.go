@@ -1,6 +1,7 @@
 package service
 
 import (
+	"database/sql"
 	"errors"
 	"go-read-list/src/business/collection/application/command"
 	"go-read-list/src/business/collection/application/mapper"
@@ -8,16 +9,20 @@ import (
 
 func (f *CollectionService) GetById(id int64) (*command.CollectionResponse, error) {
 	if id == 0 {
-		return nil, errors.New("id deve ser informado")
+		return nil, ErrIdEqualZero
 	}
 
-	colle, err := f.rep.GetFolderByInternalId(id)
+	colle, err := f.rep.GetById(id)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.Join(err, ErrNotExist)
+		}
+
 		return nil, err
 	}
 
-	if colle.GetInternalParentID() != 0 {
-		parent, err := f.rep.GetFolderByInternalId(colle.GetInternalParentID())
+	if colle.GetParentID() != 0 {
+		parent, err := f.rep.GetById(colle.GetParentID())
 		if err != nil {
 			return nil, err
 		}

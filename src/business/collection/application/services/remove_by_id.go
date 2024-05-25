@@ -1,12 +1,22 @@
 package service
 
 import (
+	"database/sql"
 	"errors"
 )
 
 func (f *CollectionService) DeleteById(id int64, recusive bool) error {
 	if id == 0 {
-		return errors.New("é necessário informar um id para ser excluido")
+		return ErrIdEqualZero
+	}
+
+	_, err := f.GetById(id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return ErrNotExist
+		}
+
+		return err
 	}
 
 	count, err := f.rep.CountDependencies(id)
@@ -15,7 +25,7 @@ func (f *CollectionService) DeleteById(id int64, recusive bool) error {
 	}
 
 	if count > 0 && !recusive {
-		return errors.New("a exclusão não pode ser realizada! existe dependentes")
+		return ErrCollectionHasChildrens
 	}
 
 	return f.rep.RemevoFolderById(id)

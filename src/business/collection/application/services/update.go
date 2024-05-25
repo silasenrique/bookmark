@@ -1,29 +1,34 @@
 package service
 
 import (
+	"database/sql"
 	"errors"
 	"go-read-list/src/business/collection/application/command"
 	"go-read-list/src/business/collection/application/mapper"
+	"strings"
 	"time"
 )
 
 func (f *CollectionService) Update(colle *command.CollectionUpdateCommand) (*command.CollectionResponse, error) {
 	if colle.Id == 0 {
-		return nil, errors.New("e necessário informar um identificador da colecao")
+		return nil, ErrIdEqualZero
 	}
 
-	_colle, err := f.rep.GetFolderByInternalId(colle.Id)
+	_colle, err := f.rep.GetById(colle.Id)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.Join(err, ErrNotExist)
+		}
+
 		return nil, err
 	}
 
-	err = f.parseParent(_colle, _colle.GetInternalParentID())
-	if err != nil {
-		return nil, err
-	}
-
-	if colle.Name != "" {
+	if strings.Trim(colle.Name, " ") != "" {
 		_colle.AddName(colle.Name)
+	}
+
+	if strings.Trim(colle.Icon, " ") != "" && colle.Icon != _colle.GetIcon() {
+		_colle.AddIcon(colle.Icon)
 	}
 
 	if colle.ParentId != 0 && !colle.RemoveParent {

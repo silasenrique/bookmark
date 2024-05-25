@@ -1,14 +1,15 @@
 package service
 
 import (
-	"errors"
-	"go-read-list/src/business/collection/application/command"
 	"go-read-list/src/business/collection/application/mapper"
+	"strings"
 )
 
-func (f *CollectionService) GetByName(name string) (*command.CollectionResponse, error) {
-	if name == "" {
-		return nil, errors.New("o nome deve ser informado")
+// Search a collection by its name.
+// If there are other collections with the same name, they will be returned as well.
+func (f *CollectionService) GetByName(name string) (*mapper.CollectionsResponse, error) {
+	if strings.Trim(name, " ") == "" {
+		return nil, ErrNameIsNull
 	}
 
 	colle, err := f.rep.GetByName(name)
@@ -16,14 +17,5 @@ func (f *CollectionService) GetByName(name string) (*command.CollectionResponse,
 		return nil, err
 	}
 
-	if colle.GetInternalParentID() != 0 {
-		parent, err := f.rep.GetFolderByInternalId(colle.GetInternalParentID())
-		if err != nil {
-			return nil, err
-		}
-
-		colle.AddParent(parent)
-	}
-
-	return mapper.CollectionToResponse(colle), nil
+	return mapper.ToCollectionsResponse(colle), nil
 }

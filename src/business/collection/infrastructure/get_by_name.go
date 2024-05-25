@@ -5,22 +5,31 @@ import (
 	"go-read-list/src/business/collection/domain/entity"
 )
 
-func (f *collectionPersistence) GetByName(name string) (*entity.Collection, error) {
-	colle := &mapper.CollectionDto{}
+func (f *collectionPersistence) GetByName(name string) ([]*entity.Collection, error) {
+	colle := []*entity.Collection{}
 
-	err := f.QueryRow("select id, name, ifnull(icon, ''), ifnull(collection_id, 0), create_at, update_at from collection where name = ?", name).
-		Scan(
-			&colle.ID,
-			&colle.Name,
-			&colle.Icon,
-			&colle.IntParentId,
-			&colle.CreateAt,
-			&colle.UpdateAt,
-		)
-
+	rows, err := f.Query("select id, name, ifnull(icon, ''), ifnull(collection_id, 0), create_at, update_at from collection where name like '%?%' order by id asc", name)
 	if err != nil {
 		return nil, err
 	}
 
-	return mapper.DtoToCollection(colle), nil
+	for rows.Next() {
+		col := &mapper.CollectionDto{}
+		err = rows.Scan(
+			&col.ID,
+			&col.Name,
+			&col.Icon,
+			&col.IntParentId,
+			&col.CreateAt,
+			&col.UpdateAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		colle = append(colle, mapper.DtoToCollection(col))
+	}
+
+	return colle, nil
 }
