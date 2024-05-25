@@ -57,11 +57,12 @@ func TestRemoveExistingIdWithDependencies(t *testing.T) {
 	mock := &collectionMock{
 		RemevoByIdFunc: func(id int64) error {
 			for _, c := range collections {
-				if c.GetParentID() == 0 {
+				_id := c.GetParentID()
+				if _id == nil {
 					continue
 				}
 
-				if c.GetParentID() == id {
+				if *_id == id {
 					delete(collections, c.GetID())
 				}
 			}
@@ -81,11 +82,12 @@ func TestRemoveExistingIdWithDependencies(t *testing.T) {
 			var count int64 = 0
 
 			for _, c := range collections {
-				if c.GetParentID() == 0 {
+				_id := c.GetParentID()
+				if _id == nil {
 					continue
 				}
 
-				if c.GetParentID() == id {
+				if *_id == id {
 					count++
 				}
 			}

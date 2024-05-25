@@ -30,6 +30,14 @@ func getCmds(wrapperRepository *wrapper) []*cli.Command {
 					},
 					Action: colli.GetByName(wrapperRepository.collection),
 				},
+				{
+					Name:  "byParent",
+					Usage: "buscar utilizando o nome",
+					Flags: []cli.Flag{
+						&cli.Int64Flag{Name: "parentId", Aliases: []string{"i"}, Usage: "nome da coleção. obs: é case sensitive, caso não exista nenhuma combinação, não irá retornar nada", Required: true},
+					},
+					Action: colli.GetByParentId(wrapperRepository.collection),
+				},
 			},
 		},
 		{

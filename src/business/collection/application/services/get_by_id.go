@@ -21,8 +21,9 @@ func (f *CollectionService) GetById(id int64) (*command.CollectionResponse, erro
 		return nil, err
 	}
 
-	if colle.GetParentID() != 0 {
-		parent, err := f.rep.GetById(colle.GetParentID())
+	if colle.GetParentID() != nil {
+		_id := colle.GetParentID()
+		parent, err := f.rep.GetById(*_id)
 		if err != nil {
 			return nil, err
 		}
