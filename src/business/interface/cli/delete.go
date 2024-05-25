@@ -13,18 +13,11 @@ func deleteCmds(wrapperRepository *wrapper) []*cli.Command {
 			Name:    "collection",
 			Aliases: []string{"c"},
 			Usage:   "deleta uma collection",
-			Subcommands: []*cli.Command{
-				{
-					Name:    "byId",
-					Aliases: []string{"id"},
-					Usage:   "excluir uma coleção utilizando o id",
-					Flags: []cli.Flag{
-						&cli.Int64Flag{Name: "id", Aliases: []string{"i"}, Usage: "id da pasta", Required: true},
-						&cli.BoolFlag{Name: "recursive", Aliases: []string{"r"}, Usage: "indica se pode excluir quem depende dessa collection", Value: false},
-					},
-					Action: colli.RemoveById(wrapperRepository.collection),
-				},
+			Flags: []cli.Flag{
+				&cli.Int64Flag{Name: "id", Aliases: []string{"i"}, Usage: "id da pasta", Required: true},
+				&cli.BoolFlag{Name: "recursive", Aliases: []string{"r"}, Usage: "indica se pode excluir quem depende dessa collection", Value: false},
 			},
+			Action: colli.RemoveById(wrapperRepository.collection),
 		},
 		{
 			Name:    "bookmark",
