@@ -3,9 +3,23 @@ package cli
 import (
 	"fmt"
 	"go-read-list/src/business/collection/application/command"
-	"go-read-list/src/business/collection/application/mapper"
-	"strconv"
 )
+
+var omitColumn = map[string]bool{
+	"icon":     true,
+	"id":       true,
+	"creatAt":  true,
+	"updateAt": true,
+	"name":     true,
+}
+
+var columnName = map[string]any{
+	"icon":     "icon",
+	"id":       "id",
+	"creatAt":  "creatAt",
+	"updateAt": "updateAt",
+	"name":     "name",
+}
 
 func printOne(colle *command.CollectionResponse) {
 	fmt.Printf("%-5v %-5v %-19v %-19v %-10v\n",
@@ -23,30 +37,46 @@ func printOne(colle *command.CollectionResponse) {
 		colle.UpdateAt,
 		colle.Name,
 	)
+
 }
 
-func printMany(colle *mapper.CollectionsResponse) {
-	fmt.Printf("%-5v %-5v %-5v %-19v %-19v %-10v\n",
-		"icon",
-		"id",
-		"parent",
-		"creatAt",
-		"updateAt",
-		"name")
-
-	for _, c := range *colle {
-
-		parentId := ""
-		if c.Parent != nil {
-			parentId = strconv.FormatInt(c.Parent.Id, 2)
+func omit(omitMap map[string]bool, value map[string]interface{}) {
+	text := ""
+	for field, show := range omitMap {
+		if show {
+			switch field {
+			case "icon":
+				text = fmt.Sprintf("%v%-5v ", text, value["icon"])
+			case "id":
+				text = fmt.Sprintf("%v%-5v ", text, value["id"])
+			case "creatAt":
+				text = fmt.Sprintf("%v%-19v ", text, value["creatAt"])
+			case "updateAt":
+				text = fmt.Sprintf("%v%-19v ", text, value["updateAt"])
+			case "name":
+				text = fmt.Sprintf("%v%v", text, value["name"])
+			}
 		}
-
-		fmt.Printf("%-5v %-5v %-6v %-19v %-19v %-10v\n",
-			c.Icon,
-			c.Id,
-			parentId,
-			c.CreateAt,
-			c.UpdateAt,
-			c.Name)
 	}
+
+	fmt.Printf("%s\n", text)
+}
+
+func printOneOmint(colle *command.CollectionResponse, omitColumns []string) {
+
+	for _, field := range omitColumns {
+		omitColumn[field] = false
+	}
+
+	omitValue := map[string]interface{}{
+		"icon":     colle.Icon,
+		"id":       colle.Id,
+		"creatAt":  colle.CreateAt,
+		"updateAt": colle.UpdateAt,
+		"name":     colle.Name,
+	}
+
+	omit(omitColumn, columnName)
+	omit(omitColumn, omitValue)
+
 }

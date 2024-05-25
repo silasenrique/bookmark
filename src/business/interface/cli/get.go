@@ -19,6 +19,7 @@ func getCmds(wrapperRepository *wrapper) []*cli.Command {
 					Usage: "buscar utilizando o identificador unico",
 					Flags: []cli.Flag{
 						&cli.Int64Flag{Name: "id", Aliases: []string{"i"}, Usage: "id da coleção", Required: true},
+						&cli.StringSliceFlag{Name: "omit", Aliases: []string{"o"}, Usage: "omitir uma coluna"},
 					},
 					Action: colli.GetById(wrapperRepository.collection),
 				},
