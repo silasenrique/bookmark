@@ -1,9 +1,9 @@
 ```
 NAME:
-   cli - A new cli application
+   bookmark - Uma aplicação para salvar e organizar os favoritos direto pelo terminal
 
 USAGE:
-   cli [global options] command [command options] 
+   bookmark [global options] command [command options] 
 
 COMMANDS:
    new, n     Nova collection, bookmark
