@@ -13,7 +13,7 @@ func List(serv *service.CollectionService) cli.ActionFunc {
 			return cli.Exit(err, 0)
 		}
 
-		printMany(col)
+		printManyOmit(col, ctx.StringSlice("omit"))
 
 		return nil
 	}

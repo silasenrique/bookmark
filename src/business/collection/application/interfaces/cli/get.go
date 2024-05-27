@@ -30,7 +30,7 @@ func GetByName(serv *service.CollectionService) cli.ActionFunc {
 			return cli.Exit(err, 0)
 		}
 
-		printMany(colle)
+		printManyOmit(colle, ctx.StringSlice("omit"))
 
 		return nil
 	}
@@ -45,7 +45,7 @@ func GetByParentId(serv *service.CollectionService) cli.ActionFunc {
 			return cli.Exit(err, 0)
 		}
 
-		printMany(colle)
+		printManyOmit(colle, ctx.StringSlice("omit"))
 
 		return nil
 	}

@@ -1,82 +1,33 @@
 package cli
 
-import (
-	"fmt"
-	"go-read-list/src/business/collection/application/command"
-)
+import "fmt"
 
-var omitColumn = map[string]bool{
-	"icon":     true,
-	"id":       true,
-	"creatAt":  true,
-	"updateAt": true,
-	"name":     true,
+func getValue(column *Column, title bool) any {
+	if title {
+		return column.Name
+	}
+
+	return column.Value
 }
 
-var columnName = map[string]any{
-	"icon":     "icon",
-	"id":       "id",
-	"creatAt":  "creatAt",
-	"updateAt": "updateAt",
-	"name":     "name",
-}
-
-func printOne(colle *command.CollectionResponse) {
-	fmt.Printf("%-5v %-5v %-19v %-19v %-10v\n",
-		"icon",
-		"id",
-		"creatAt",
-		"updateAt",
-		"name",
-	)
-
-	fmt.Printf("%-5v %-5v %-19v %-19v %-10v \n",
-		colle.Icon,
-		colle.Id,
-		colle.CreateAt,
-		colle.UpdateAt,
-		colle.Name,
-	)
-
-}
-
-func omit(omitMap map[string]bool, value map[string]interface{}) {
+func printData(col []*Column, title bool) {
 	text := ""
-	for field, show := range omitMap {
-		if show {
-			switch field {
+	for _, show := range col {
+		if !show.Omit {
+			switch show.Name {
 			case "icon":
-				text = fmt.Sprintf("%v%-5v ", text, value["icon"])
+				text = fmt.Sprintf("%v%-5v ", text, getValue(show, title))
 			case "id":
-				text = fmt.Sprintf("%v%-5v ", text, value["id"])
+				text = fmt.Sprintf("%v%-5v ", text, getValue(show, title))
 			case "creatAt":
-				text = fmt.Sprintf("%v%-19v ", text, value["creatAt"])
+				text = fmt.Sprintf("%v%-19v ", text, getValue(show, title))
 			case "updateAt":
-				text = fmt.Sprintf("%v%-19v ", text, value["updateAt"])
+				text = fmt.Sprintf("%v%-19v ", text, getValue(show, title))
 			case "name":
-				text = fmt.Sprintf("%v%v", text, value["name"])
+				text = fmt.Sprintf("%v%v", text, getValue(show, title))
 			}
 		}
 	}
 
 	fmt.Printf("%s\n", text)
-}
-
-func printOneOmint(colle *command.CollectionResponse, omitColumns []string) {
-
-	for _, field := range omitColumns {
-		omitColumn[field] = false
-	}
-
-	omitValue := map[string]interface{}{
-		"icon":     colle.Icon,
-		"id":       colle.Id,
-		"creatAt":  colle.CreateAt,
-		"updateAt": colle.UpdateAt,
-		"name":     colle.Name,
-	}
-
-	omit(omitColumn, columnName)
-	omit(omitColumn, omitValue)
-
 }

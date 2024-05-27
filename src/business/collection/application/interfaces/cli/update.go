@@ -37,7 +37,7 @@ func Update(serv *service.CollectionService) cli.ActionFunc {
 			return cli.Exit(err, 0)
 		}
 
-		printOne(resp)
+		printOneOmint(resp, nil)
 
 		return nil
 	}

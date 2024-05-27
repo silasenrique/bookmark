@@ -1,33 +1,42 @@
 package cli
 
 import (
-	"fmt"
 	"go-read-list/src/business/collection/application/mapper"
-	"strconv"
 )
 
-func printMany(colle *mapper.CollectionsResponse) {
-	fmt.Printf("%-5v %-5v %-5v %-19v %-19v %-10v\n",
-		"icon",
-		"id",
-		"parent",
-		"creatAt",
-		"updateAt",
-		"name")
+func printManyOmit(colle *mapper.CollectionsResponse, omitColumns []string) {
+	columnToOmit := map[string]bool{}
 
-	for _, c := range *colle {
+	for _, column := range omitColumns {
+		columnToOmit[column] = true
+	}
 
-		parentId := ""
-		if c.Parent != nil {
-			parentId = strconv.FormatInt(c.Parent.Id, 2)
+	data := []*Column{
+		{Name: "icon"},
+		{Name: "id"},
+		{Name: "creatAt"},
+		{Name: "updateAt"},
+		{Name: "name"},
+	}
+
+	for _, v := range data {
+		if columnToOmit[v.Name] {
+			v.Omit = true
+		}
+	}
+
+	printData(data, true)
+
+	for _, o := range *colle {
+		data := []*Column{
+			{Name: "icon", Value: o.Icon, Omit: columnToOmit["icon"]},
+			{Name: "id", Value: o.Id, Omit: columnToOmit["id"]},
+			{Name: "creatAt", Value: o.CreateAt, Omit: columnToOmit["creatAt"]},
+			{Name: "updateAt", Value: o.UpdateAt, Omit: columnToOmit["updateAt"]},
+			{Name: "name", Value: o.Name, Omit: columnToOmit["name"]},
 		}
 
-		fmt.Printf("%-5v %-5v %-6v %-19v %-19v %-10v\n",
-			c.Icon,
-			c.Id,
-			parentId,
-			c.CreateAt,
-			c.UpdateAt,
-			c.Name)
+		printData(data, false)
 	}
+
 }

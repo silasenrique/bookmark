@@ -18,18 +18,18 @@ func listCmds(wrapperRepository *wrapper) []*cli.Command {
 					Name:    "top",
 					Usage:   "listar todas as coleções solitárias",
 					Aliases: []string{"p"},
-					Action:  colli.GetTopLevel(wrapperRepository.collection),
+					Flags: []cli.Flag{
+						&cli.StringSliceFlag{Name: "omit", Aliases: []string{"o"}, Usage: "omitir uma coluna"},
+					},
+					Action: colli.GetTopLevel(wrapperRepository.collection),
 				},
 				{
-					Name:    "tree", // TODO: ainda não ta pronta não
-					Usage:   "listar as coleções de forma hierarquica de arvore",
-					Action:  colli.GetTopLevel(wrapperRepository.collection),
-					Aliases: []string{"t"},
-				},
-				{
-					Name:    "all", // TODO: ainda não ta pronta não
-					Usage:   "listar todas as coleções criadas",
-					Action:  colli.List(wrapperRepository.collection),
+					Name:   "all",
+					Usage:  "listar todas as coleções criadas",
+					Action: colli.List(wrapperRepository.collection),
+					Flags: []cli.Flag{
+						&cli.StringSliceFlag{Name: "omit", Aliases: []string{"o"}, Usage: "omitir uma coluna"},
+					},
 					Aliases: []string{"a"},
 				},
 			},
