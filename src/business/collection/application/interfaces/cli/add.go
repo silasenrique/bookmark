@@ -20,7 +20,7 @@ func Add(serv *service.CollectionService) cli.ActionFunc {
 			return cli.Exit(err, 0)
 		}
 
-		printOne(response)
+		printOneOmint(response, nil)
 
 		return nil
 	}

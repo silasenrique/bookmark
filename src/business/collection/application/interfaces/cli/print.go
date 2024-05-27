@@ -1,52 +1,33 @@
 package cli
 
-import (
-	"fmt"
-	"go-read-list/src/business/collection/application/command"
-	"go-read-list/src/business/collection/application/mapper"
-	"strconv"
-)
+import "fmt"
 
-func printOne(colle *command.CollectionResponse) {
-	fmt.Printf("%-5v %-5v %-19v %-19v %-10v\n",
-		"icon",
-		"id",
-		"creatAt",
-		"updateAt",
-		"name",
-	)
+func getValue(column *Column, title bool) any {
+	if title {
+		return column.Name
+	}
 
-	fmt.Printf("%-5v %-5v %-19v %-19v %-10v \n",
-		colle.Icon,
-		colle.Id,
-		colle.CreateAt,
-		colle.UpdateAt,
-		colle.Name,
-	)
+	return column.Value
 }
 
-func printMany(colle *mapper.CollectionsResponse) {
-	fmt.Printf("%-5v %-5v %-5v %-19v %-19v %-10v\n",
-		"icon",
-		"id",
-		"parent",
-		"creatAt",
-		"updateAt",
-		"name")
-
-	for _, c := range *colle {
-
-		parentId := ""
-		if c.Parent != nil {
-			parentId = strconv.FormatInt(c.Parent.Id, 2)
+func printData(col []*Column, title bool) {
+	text := ""
+	for _, show := range col {
+		if !show.Omit {
+			switch show.Name {
+			case "icon":
+				text = fmt.Sprintf("%v%-5v ", text, getValue(show, title))
+			case "id":
+				text = fmt.Sprintf("%v%-5v ", text, getValue(show, title))
+			case "creatAt":
+				text = fmt.Sprintf("%v%-19v ", text, getValue(show, title))
+			case "updateAt":
+				text = fmt.Sprintf("%v%-19v ", text, getValue(show, title))
+			case "name":
+				text = fmt.Sprintf("%v%v", text, getValue(show, title))
+			}
 		}
-
-		fmt.Printf("%-5v %-5v %-6v %-19v %-19v %-10v\n",
-			c.Icon,
-			c.Id,
-			parentId,
-			c.CreateAt,
-			c.UpdateAt,
-			c.Name)
 	}
+
+	fmt.Printf("%s\n", text)
 }

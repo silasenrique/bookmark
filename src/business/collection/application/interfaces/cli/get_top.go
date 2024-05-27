@@ -13,7 +13,7 @@ func GetTopLevel(serv *service.CollectionService) cli.ActionFunc {
 			return cli.Exit(err, 0)
 		}
 
-		printMany(collection)
+		printManyOmit(collection, ctx.StringSlice("omit"))
 
 		return nil
 	}
